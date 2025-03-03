@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>58af40a0-1daa-476e-8e73-61712b2edf10</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\ServicePetCarePlanner.Services\ServicePetCarePlanner.Services.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\ServicePetCarePlanner.DataEntityFramework\ServicePetCarePlanner.DataEntityFramework.csproj" />
+    <ProjectReference Include="..\..\ServicePetCarePlanner.Domain\ServicePetCarePlanner.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
