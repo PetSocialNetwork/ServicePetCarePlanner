@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Application\ServicePetCarePlanner.Services\ServicePetCarePlanner.Services.csproj" />
     <ProjectReference Include="..\..\Infrastructure\ServicePetCarePlanner.DataEntityFramework\ServicePetCarePlanner.DataEntityFramework.csproj" />
     <ProjectReference Include="..\..\ServicePetCarePlanner.Domain\ServicePetCarePlanner.Domain.csproj" />
   </ItemGroup>

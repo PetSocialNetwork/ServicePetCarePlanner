@@ -21,18 +21,12 @@ namespace ServicePetCarePlanner.WebApi.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RecordNotFoundException))]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpDelete("[action]")]
         public async Task DeleteRecordAsync([FromQuery] Guid id, CancellationToken cancellationToken)
         {
             await _petPlannerService.DeleteRecordAsync(id, cancellationToken);
         }
 
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RecordNotFoundException))]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("[action]")]
         public async Task<RecordResponse> GetRecordByIdAsync([FromQuery] Guid id, CancellationToken cancellationToken)
         {
@@ -40,8 +34,6 @@ namespace ServicePetCarePlanner.WebApi.Controllers
             return _mapper.Map<RecordResponse>(message);
         }
 
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost("[action]")]
         public async Task<RecordResponse> AddRecordAsync([FromBody] RecordRequest request, CancellationToken cancellationToken)
         {
@@ -50,8 +42,6 @@ namespace ServicePetCarePlanner.WebApi.Controllers
             return _mapper.Map<RecordResponse>(addedRecord);
         }
 
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost("[action]")]
         public async Task<RecordResponse> UpdateRecordAsync([FromBody] UpdateRecordRequest request, CancellationToken cancellationToken)
         {
@@ -59,9 +49,7 @@ namespace ServicePetCarePlanner.WebApi.Controllers
             var updatedRecord = await _petPlannerService.UpdateRecordAsync(record, cancellationToken);
             return _mapper.Map<RecordResponse>(updatedRecord);
         }
-       
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
         [HttpGet("[action]")]
         public async Task<List<RecordResponse>> GetAllRecordsAsync(CancellationToken cancellationToken)
         {
@@ -69,12 +57,17 @@ namespace ServicePetCarePlanner.WebApi.Controllers
             return _mapper.Map<List<RecordResponse>>(records);
         }
 
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpGet("[action]")]
+        [HttpPost("[action]")]
         public async Task<List<RecordResponse>> GetAllRecordsByDateAsync([FromBody] RecordByDateRequest request, CancellationToken cancellationToken)
         {
             var records = await _petPlannerService.GetAllRecordByDateAsync(request.Date, cancellationToken);
+            return _mapper.Map<List<RecordResponse>>(records);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<List<RecordResponse>> GetAllRecordsByPeriodAsync([FromBody] RecordByPeriodRequest request, CancellationToken cancellationToken)
+        {
+            var records = await _petPlannerService.GetAllRecordsByPeriodAsync(request.StartDate, request.EndDate, cancellationToken);
             return _mapper.Map<List<RecordResponse>>(records);
         }
     }

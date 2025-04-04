@@ -18,5 +18,12 @@ namespace ServicePetCarePlanner.DataEntityFramework.Repositories
         {
             return await Entities.Where(it => it.Date == date).ToListAsync(cancellationToken);
         }
+
+        public async Task<List<Record>> GetAllRecordsByPeriodAsync(DateOnly startDate, DateOnly endDate, CancellationToken cancellationToken)
+        {
+            return await Entities
+                    .Where(it => it.Date >= startDate && it.Date <= endDate)
+                    .ToListAsync(cancellationToken);
+        }     
     }
 }

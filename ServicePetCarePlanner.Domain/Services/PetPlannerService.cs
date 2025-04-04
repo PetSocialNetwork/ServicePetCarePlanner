@@ -44,7 +44,13 @@ namespace ServicePetCarePlanner.Domain.Services
 
         public async Task<Record> UpdateRecordAsync(Record record, CancellationToken cancellationToken)
         {
-            await _petPlannerRepository.Update(record, cancellationToken);
+            var existedRecord = await _petPlannerRepository.FindRecordAsync(record.Id, cancellationToken);
+            if (existedRecord == null)
+            {
+                throw new RecordNotFoundException("Запись не найдена");
+            }
+            existedRecord.Text = record.Text;
+            await _petPlannerRepository.Update(existedRecord, cancellationToken);
             return record;
         }
 
@@ -57,5 +63,11 @@ namespace ServicePetCarePlanner.Domain.Services
         {
             return await _petPlannerRepository.GetAllRecordsByDateAsync(date, cancellationToken);
         }
+
+        public async Task<List<Record>> GetAllRecordsByPeriodAsync(DateOnly startDate, DateOnly endDate, CancellationToken cancellationToken)
+        {
+            return await _petPlannerRepository.GetAllRecordsByPeriodAsync(startDate, endDate, cancellationToken);
+        }
+       
     }
 }
