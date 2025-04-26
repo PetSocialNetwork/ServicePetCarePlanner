@@ -53,14 +53,16 @@ namespace ServicePlanner.WebApi.Controllers
         [HttpPost("[action]")]
         public async Task<List<RecordResponse>> GetAllRecordsByDateAsync([FromBody] RecordByDateRequest request, CancellationToken cancellationToken)
         {
-            var records = await _plannerService.GetAllRecordByDateAsync(request.ProfileId, request.Date, cancellationToken);
+            var records = await _plannerService.GetAllRecordByDateAsync
+                (request.ProfileId, request.Date, request.Take, request.Offset, cancellationToken);
             return _mapper.Map<List<RecordResponse>>(records);
         }
 
         [HttpPost("[action]")]
         public async Task<List<RecordResponse>> GetAllRecordsByPeriodAsync([FromBody] RecordByPeriodRequest request, CancellationToken cancellationToken)
         {
-            var records = await _plannerService.GetAllRecordsByPeriodAsync(request.ProfileId, request.StartDate, request.EndDate, cancellationToken);
+            var records = await _plannerService.GetAllRecordsByPeriodAsync
+                (request.ProfileId, request.StartDate, request.EndDate, request.Take, request.Offset, cancellationToken);
             return _mapper.Map<List<RecordResponse>>(records);
         }
     }

@@ -2,7 +2,7 @@
 
 namespace ServicePlanner.WebApi.Models.Requests
 {
-    public class RecordByPeriodRequest
+    public class RecordByPeriodRequest:BySearchRequest
     {
         [Required]
         public Guid ProfileId { get; set; }

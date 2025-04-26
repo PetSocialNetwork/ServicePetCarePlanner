@@ -14,15 +14,32 @@ namespace ServicePlanner.DataEntityFramework.Repositories
             return await Entities.SingleOrDefaultAsync(it => it.Id == id, cancellationToken);
         }
 
-        public async Task<List<Record>> GetAllRecordsByDateAsync(Guid profileId, DateOnly date, CancellationToken cancellationToken)
+        public async Task<List<Record>> GetAllRecordsByDateAsync
+            (Guid profileId, 
+            DateOnly date, 
+            int take, 
+            int offset, 
+            CancellationToken cancellationToken)
         {
-            return await Entities.Where(it => it.Date == date && it.ProfileId == profileId).ToListAsync(cancellationToken);
+            return await Entities
+                .Where(it => it.Date == date && it.ProfileId == profileId)
+                .Skip(offset * take)
+                .Take(take)
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<List<Record>> GetAllRecordsByPeriodAsync(Guid profileId, DateOnly startDate, DateOnly endDate, CancellationToken cancellationToken)
+        public async Task<List<Record>> GetAllRecordsByPeriodAsync
+            (Guid profileId, 
+            DateOnly startDate, 
+            DateOnly endDate,
+            int take,
+            int offset,
+            CancellationToken cancellationToken)
         {
             return await Entities
                     .Where(it => it.Date >= startDate && it.Date <= endDate && it.ProfileId == profileId)
+                    .Skip(offset * take)
+                    .Take(take)
                     .ToListAsync(cancellationToken);
         }     
     }

@@ -59,15 +59,34 @@ namespace ServicePlanner.Domain.Services
             return await _plannerRepository.GetAll(cancellationToken);
         }
 
-        public async Task<List<Record>> GetAllRecordByDateAsync(Guid profileId, DateOnly date, CancellationToken cancellationToken)
+        public async Task<List<Record>> GetAllRecordByDateAsync
+            (Guid profileId, 
+            DateOnly date, 
+            int take, 
+            int offset, 
+            CancellationToken cancellationToken)
         {
-            return await _plannerRepository.GetAllRecordsByDateAsync(profileId, date, cancellationToken);
+            if (take < 0 || offset < 0)
+            {
+                throw new ArgumentException("Параметр не может быть меньше 0");
+            }
+            return await _plannerRepository.GetAllRecordsByDateAsync(profileId, date, take, offset, cancellationToken);
         }
 
-        public async Task<List<Record>> GetAllRecordsByPeriodAsync(Guid profileId, DateOnly startDate, DateOnly endDate, CancellationToken cancellationToken)
+        public async Task<List<Record>> GetAllRecordsByPeriodAsync
+            (Guid profileId, 
+            DateOnly startDate, 
+            DateOnly endDate,
+            int take,
+            int offset,
+            CancellationToken cancellationToken)
         {
-            return await _plannerRepository.GetAllRecordsByPeriodAsync(profileId, startDate, endDate, cancellationToken);
-        }
-       
+            if (take < 0 || offset < 0)
+            {
+                throw new ArgumentException("Параметр не может быть меньше 0");
+            }
+            return await _plannerRepository
+                .GetAllRecordsByPeriodAsync(profileId, startDate, endDate, take, offset, cancellationToken);
+        }      
     }
 }
