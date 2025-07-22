@@ -1,4 +1,5 @@
 ﻿using ServicePlanner.Domain.Entities;
+using ServicePlanner.Domain.Shared;
 
 namespace ServicePlanner.Domain.Interfaces
 {
@@ -6,8 +7,8 @@ namespace ServicePlanner.Domain.Interfaces
     {
         Task<Record?> FindRecordAsync(Guid id, CancellationToken cancellationToken);
         Task<List<Record>> GetAllRecordsByDateAsync
-            (Guid profileId, DateOnly date, int take, int offset, CancellationToken cancellationToken);
+            (Guid profileId, DateOnly date, PaginationOptions options, CancellationToken cancellationToken);
         Task<List<Record>> GetAllRecordsByPeriodAsync
-            (Guid profileId, DateOnly startDate, DateOnly endDate, int take, int offset, CancellationToken cancellationToken);
+            (Guid profileId, DateOnly startDate, DateOnly endDate, PaginationOptions options, CancellationToken cancellationToken);
     }
 }

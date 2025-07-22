@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServicePlanner.Domain.Entities;
 using ServicePlanner.Domain.Interfaces;
+using ServicePlanner.Domain.Shared;
 
 
 namespace ServicePlanner.DataEntityFramework.Repositories
@@ -16,15 +17,14 @@ namespace ServicePlanner.DataEntityFramework.Repositories
 
         public async Task<List<Record>> GetAllRecordsByDateAsync
             (Guid profileId, 
-            DateOnly date, 
-            int take, 
-            int offset, 
+            DateOnly date,
+            PaginationOptions options,
             CancellationToken cancellationToken)
         {
             return await Entities
                 .Where(it => it.Date == date && it.ProfileId == profileId)
-                .Skip(offset * take)
-                .Take(take)
+                .Skip(options.Offset * options.Take)
+                .Take(options.Take)
                 .ToListAsync(cancellationToken);
         }
 
@@ -32,14 +32,13 @@ namespace ServicePlanner.DataEntityFramework.Repositories
             (Guid profileId, 
             DateOnly startDate, 
             DateOnly endDate,
-            int take,
-            int offset,
+            PaginationOptions options,
             CancellationToken cancellationToken)
         {
             return await Entities
                     .Where(it => it.Date >= startDate && it.Date <= endDate && it.ProfileId == profileId)
-                    .Skip(offset * take)
-                    .Take(take)
+                    .Skip(options.Offset * options.Take)
+                    .Take(options.Take)
                     .ToListAsync(cancellationToken);
         }     
     }

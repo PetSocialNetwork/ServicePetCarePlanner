@@ -1,14 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿#pragma warning disable CS8618
 
 namespace ServicePlanner.WebApi.Models.Requests
 {
-    public class RecordByPeriodRequest:BySearchRequest
+    public class RecordByPeriodRequest
     {
-        [Required]
         public Guid ProfileId { get; set; }
-        [Required]
         public DateOnly StartDate { get; set; }
-        [Required]
         public DateOnly EndDate { get; set; }
+        public PaginationRequest Options { get; set; }
     }
 }

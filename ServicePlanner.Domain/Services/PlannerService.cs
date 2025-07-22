@@ -1,6 +1,7 @@
 ﻿using ServicePlanner.Domain.Entities;
 using ServicePlanner.Domain.Exceptions;
 using ServicePlanner.Domain.Interfaces;
+using ServicePlanner.Domain.Shared;
 
 namespace ServicePlanner.Domain.Services
 {
@@ -15,40 +16,35 @@ namespace ServicePlanner.Domain.Services
                 ?? throw new ArgumentNullException(nameof(plannerRepository));
         }
 
-        public async Task<Record> CreateRecordAsync(Record record, CancellationToken cancellationToken)
+        public async Task<Record> CreateRecordAsync
+            (Record record, CancellationToken cancellationToken)
         { 
-            ArgumentNullException.ThrowIfNull(record, nameof(record));
             await _plannerRepository.Add(record, cancellationToken);
             return record;
         }
 
-        public async Task<Record> GetRecordByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<Record> GetRecordByIdAsync
+            (Guid id, CancellationToken cancellationToken)
         {
-            var record = await _plannerRepository.FindRecordAsync(id, cancellationToken);
-            if (record == null)
-            {
-                throw new RecordNotFoundException("Запись не найдена");
-            }
+            var record = await _plannerRepository.FindRecordAsync(id, cancellationToken)
+                ?? throw new RecordNotFoundException("Запись не найдена");
             return record;
         }
 
-        public async Task DeleteRecordAsync(Guid id, CancellationToken cancellationToken)
+        public async Task DeleteRecordAsync
+            (Guid id, CancellationToken cancellationToken)
         {
-            var record = await _plannerRepository.FindRecordAsync(id, cancellationToken);
-            if (record == null)
-            {
-                throw new RecordNotFoundException("Запись не найдена");
-            }
+            var record = await _plannerRepository.FindRecordAsync(id, cancellationToken)
+                ?? throw new RecordNotFoundException("Запись не найдена");
             await _plannerRepository.Delete(record, cancellationToken);
         }
 
-        public async Task<Record> UpdateRecordAsync(Record record, CancellationToken cancellationToken)
+        public async Task<Record> UpdateRecordAsync
+            (Record record, CancellationToken cancellationToken)
         {
-            var existedRecord = await _plannerRepository.FindRecordAsync(record.Id, cancellationToken);
-            if (existedRecord == null)
-            {
-                throw new RecordNotFoundException("Запись не найдена");
-            }
+            var existedRecord = await _plannerRepository.FindRecordAsync(record.Id, cancellationToken)
+                ?? throw new RecordNotFoundException("Запись не найдена");
+
             existedRecord.Text = record.Text;
             await _plannerRepository.Update(existedRecord, cancellationToken);
             return record;
@@ -61,32 +57,23 @@ namespace ServicePlanner.Domain.Services
 
         public async Task<List<Record>> GetAllRecordByDateAsync
             (Guid profileId, 
-            DateOnly date, 
-            int take, 
-            int offset, 
+            DateOnly date,
+            PaginationOptions options,
             CancellationToken cancellationToken)
         {
-            if (take < 0 || offset < 0)
-            {
-                throw new ArgumentException("Параметр не может быть меньше 0");
-            }
-            return await _plannerRepository.GetAllRecordsByDateAsync(profileId, date, take, offset, cancellationToken);
+            return await _plannerRepository.GetAllRecordsByDateAsync
+                (profileId, date, options, cancellationToken);
         }
 
         public async Task<List<Record>> GetAllRecordsByPeriodAsync
             (Guid profileId, 
             DateOnly startDate, 
             DateOnly endDate,
-            int take,
-            int offset,
+            PaginationOptions options,
             CancellationToken cancellationToken)
         {
-            if (take < 0 || offset < 0)
-            {
-                throw new ArgumentException("Параметр не может быть меньше 0");
-            }
-            return await _plannerRepository
-                .GetAllRecordsByPeriodAsync(profileId, startDate, endDate, take, offset, cancellationToken);
+            return await _plannerRepository.GetAllRecordsByPeriodAsync
+                (profileId, startDate, endDate, options, cancellationToken);
         }      
     }
 }

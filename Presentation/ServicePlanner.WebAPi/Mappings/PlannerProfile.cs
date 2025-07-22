@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ServicePlanner.Domain.Entities;
+using ServicePlanner.Domain.Shared;
 using ServicePlanner.WebApi.Models.Requests;
 using ServicePlanner.WebApi.Models.Responses;
 
@@ -22,6 +23,7 @@ namespace ServicePlanner.WebApi.Mappings
                 .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date));
 
             CreateMap<Record, RecordResponse>();
+            CreateMap<PaginationRequest, PaginationOptions>();
         }
     }
 }
