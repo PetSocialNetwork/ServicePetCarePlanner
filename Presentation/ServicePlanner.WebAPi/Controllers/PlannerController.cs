@@ -99,7 +99,7 @@ namespace ServicePlanner.WebApi.Controllers
         public async Task<List<RecordResponse>> GetAllRecordsByDateAsync
             ([FromBody] RecordByDateRequest request, CancellationToken cancellationToken)
         {
-            var options = _mapper.Map<PaginationOptions>(request);
+            var options = _mapper.Map<PaginationOptions>(request.Options);
             var records = await _plannerService.GetAllRecordByDateAsync
                 (request.ProfileId, request.Date, options, cancellationToken);
             return _mapper.Map<List<RecordResponse>>(records);
@@ -116,7 +116,7 @@ namespace ServicePlanner.WebApi.Controllers
         public async Task<List<RecordResponse>> GetAllRecordsByPeriodAsync
             ([FromBody] RecordByPeriodRequest request, CancellationToken cancellationToken)
         {
-            var options = _mapper.Map<PaginationOptions>(request);
+            var options = _mapper.Map<PaginationOptions>(request.Options);
             var records = await _plannerService.GetAllRecordsByPeriodAsync
                 (request.ProfileId, request.StartDate, request.EndDate, options, cancellationToken);
             return _mapper.Map<List<RecordResponse>>(records);
